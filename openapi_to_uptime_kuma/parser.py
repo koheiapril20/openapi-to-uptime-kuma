@@ -1,4 +1,5 @@
 import urllib.parse
+import json
 from itertools import product
 from typing import List, Dict, Any
 from openapi_python_client.schema import OpenAPI, ParameterLocation
@@ -41,6 +42,22 @@ def extract_monitor_entries(data: Any) -> List[MonitorEntry]:
                 base_urls=servers,
                 path=path_with_query_string,
             ))
+        if pathItem.post:
+            for media_type, content in pathItem.post.request_body.content.items():
+                if media_type == 'application/json':
+                    if content.example:
+                        entries.append(MonitorEntry(
+                            method=OperationMethod.POST,
+                            operation_id=pathItem.post.operationId,
+                            base_urls=servers,
+                            path=path,
+                            request_body=json.dumps(content.example),
+                        ))
+                    elif content.examples:
+                        print('examples ignored: unimplemented')
+                else:
+                    print('unsupported media_type:', media_type)
+                    
     return entries
 
 def build_servers_url(servers: List[Server]) -> Dict[str, str]:

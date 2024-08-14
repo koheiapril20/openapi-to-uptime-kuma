@@ -38,6 +38,7 @@ def upsert_monitors(dashboard: str, entries: List[MonitorEntry]):
                     name=name,
                     url=url,
                     method=entry.method.value,
+                    body=entry.request_body,
                 )
     
     api.disconnect()
