@@ -1,0 +1,4 @@
+openapi-python-client==0.21.2
+python-dotenv==1.0.1
+PyYAML==6.0.2
+uptime_kuma_api==1.2.1

@@ -1,0 +1,4 @@
+spec.yaml
+__pycache__
+venv
+.env
